@@ -1,6 +1,6 @@
 # EcoPulse - Real-Time Environmental Intelligence Dashboard
 
-**Live Demo:** [Insert Vercel Link Here]
+**Live Demo:** [https://ecopulse-dashboard.netlify.app/](https://ecopulse-dashboard.netlify.app/)
 
 ![EcoPulse Dashboard](public/assets/dashboard-light.png)
 
