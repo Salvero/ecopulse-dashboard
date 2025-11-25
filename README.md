@@ -1,62 +1,52 @@
-# EcoPulse Dashboard 🌿
+# EcoPulse - Real-Time Environmental Intelligence Dashboard
 
-**EcoPulse** is a modern, real-time dashboard designed to visualize the correlation between renewable energy production (Solar) and carbon intensity. It demonstrates how clean energy sources directly impact and reduce the carbon footprint of energy consumption.
+**Live Demo:** [Insert Vercel Link Here]
 
-![EcoPulse Dashboard](https://via.placeholder.com/1200x600?text=EcoPulse+Dashboard+Preview)
-*(Note: Replace with actual screenshot)*
+## ⚡ Overview
+EcoPulse is a real-time intelligence dashboard that correlates local weather conditions with environmental impact metrics. It visualizes the inverse relationship between **Solar Generation Potential** and **Air Quality Index (AQI)**, proving that renewable energy availability often correlates with better environmental conditions.
 
-## 🚀 Features
+Designed to demonstrate robust handling of asynchronous data streams, complex state management, and data visualization in Next.js.
 
--   **Real-Time Monitoring**: Track key environmental metrics including Temperature, Humidity, Wind Speed, and Carbon Intensity.
--   **Energy Correlation Analysis**: A sophisticated dual-axis chart visualizing the inverse relationship between **Solar Output** (Yellow) and **Carbon Intensity** (Red).
-    -   *Insight*: Observe how Carbon Intensity drops as Solar Output peaks during the day.
--   **Responsive Design**: Built with a mobile-first approach using TailwindCSS.
--   **Strict Typing**: Fully typed data layer using TypeScript for reliability.
+## 🛠 Tech Stack
+* **Framework:** Next.js 15 (App Router)
+* **Language:** TypeScript (Strict)
+* **State Management:** TanStack Query (React Query)
+* **Visualization:** Recharts (Composed Dual-Axis Charts)
+* **Styling:** TailwindCSS + Shadcn/UI
+* **APIs:** Open-Meteo (Weather & Air Quality)
 
-## 🛠️ Tech Stack
+## 🚀 Key Features
 
--   **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
--   **Language**: [TypeScript](https://www.typescriptlang.org/)
--   **Styling**: [TailwindCSS](https://tailwindcss.com/)
--   **Visualization**: [Recharts](https://recharts.org/)
--   **Icons**: [Lucide React](https://lucide.dev/)
--   **State/Data**: React Hooks (simulated async data flow)
+### 1. Dual-Axis Correlation Analysis
+The core visualization overlays two disparate data sets:
+* **Solar Output (W/m²):** Visualized as a trend line (Yellow).
+* **Air Quality (AQI):** Visualized as a gradient area chart (Red).
+* **Engineering Challenge:** These datasets come from different API endpoints with different array structures. I implemented a **Normalization Layer** to zip these streams together by timestamp, ensuring accurate X-Axis synchronization.
 
-## 🏃‍♂️ Getting Started
+### 2. Timezone-Aware Data Processing
+The dashboard automatically detects the target region's timezone (America/Toronto) and aligns the UI to match.
+* *Problem Solved:* Raw API data is UTC. Browser is Local.
+* *Solution:* Implemented custom hour-matching logic to ensure the "Current Conditions" card always reflects the actual hour of the day, preventing "Midnight Data" from showing up at Noon.
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/Salvero/ecopulse-dashboard.git
-    cd ecopulse-dashboard
-    ```
+### 3. Resilient Data Layer
+* **Parallel Fetching:** Uses `Promise.all` to fetch Weather and AQI data simultaneously to minimize Time-to-First-Byte (TTFB).
+* **Graceful Degradation:** Includes a "Mock Mode" fallback. If the external APIs rate-limit or fail, the application silently switches to a local dataset to prevent white-screen crashes during demos.
 
-2.  **Install dependencies:**
-    ```bash
-    npm install
-    ```
+## 📦 Running Locally
 
-3.  **Run the development server:**
-    ```bash
-    npm run dev
-    ```
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/yourusername/ecopulse.git
+   ```
 
-4.  Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-## 📂 Project Structure
+3. Run the dev server:
+   ```bash
+   npm run dev
+   ```
 
--   `app/`: Next.js App Router pages and layouts.
--   `components/dashboard/`: Reusable dashboard components (StatCards, EnergyChart).
--   `hooks/`: Custom React hooks for data fetching (`useDashboardData`).
--   `lib/`: Utilities and mock data generators (`normalize.ts`, `mockData.ts`).
--   `types/`: TypeScript definitions (`dashboard.ts`).
-
-## 🔮 Future Roadmap
-
--   [ ] Integration with real-world APIs (Open-Meteo, Carbon Intensity API).
--   [ ] Historical data analysis with date range pickers.
--   [ ] Dark mode support.
--   [ ] Multi-location support.
-
----
-
-Built with 💚 for a greener future.
+Built by Salman
