@@ -2,15 +2,30 @@
 
 **Live Demo:** [https://ecopulse-dashboard.netlify.app/](https://ecopulse-dashboard.netlify.app/)
 
-![EcoPulse Dashboard](public/assets/dashboard-light.png)
+![EcoPulse Dashboard](public/assets/dashboard-light-main.png)
 
 ## ⚡ Overview
 EcoPulse is a real-time intelligence dashboard that correlates local weather conditions with environmental impact metrics. It visualizes the inverse relationship between **Solar Generation Potential** and **Air Quality Index (AQI)**, proving that renewable energy availability often correlates with better environmental conditions.
 
-### 📸 Gallery
-| Light Mode | Correlation Analysis |
-|------------|----------------------|
-| ![Light Mode](public/assets/dashboard-light.png) | ![Correlation](public/assets/dashboard-correlation.png) |
+### 📸 Feature Showcase
+
+#### 🌓 Light & Dark Mode Support
+Seamlessly switch between themes with a persistent, system-aware preference toggle.
+| Light Mode | Dark Mode |
+|------------|-----------|
+| ![Light Mode](public/assets/dashboard-light-main.png) | ![Dark Mode](public/assets/dashboard-dark-mode.png) |
+
+#### 📊 Advanced Correlation Analysis
+Visualizes the complex relationship between Solar Generation (Yellow) and Air Quality Index (Red) over time.
+![Correlation Analysis](public/assets/dashboard-correlation-analysis.png)
+
+#### 🌡️ Detailed Weather Telemetry
+Real-time widgets displaying Temperature, UV Index, Wind Speed, and Humidity with trend indicators.
+![Weather Widgets](public/assets/dashboard-widgets-detail.png)
+
+#### ℹ️ Project Architecture
+Built-in documentation modal explaining the tech stack and data flow.
+![Project Info](public/assets/project-info-modal.png)
 
 Designed to demonstrate robust handling of asynchronous data streams, complex state management, and data visualization in Next.js.
 
