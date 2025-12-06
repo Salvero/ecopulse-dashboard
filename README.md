@@ -30,7 +30,7 @@ Built-in documentation modal explaining the tech stack and data flow.
 Designed to demonstrate robust handling of asynchronous data streams, complex state management, and data visualization in Next.js.
 
 ## 🛠 Tech Stack
-* **Framework:** Next.js 15 (App Router)
+* **Framework:** Next.js 16 (App Router)
 * **Language:** TypeScript (Strict)
 * **State Management:** TanStack Query (React Query)
 * **Visualization:** Recharts (Composed Dual-Axis Charts)
