@@ -98,6 +98,4 @@ EcoPulse-Dashboard/
    npm install
    npm run dev
    ```
-```
-
 Built by Salman | [View Portfolio](https://github.com/Salvero)
