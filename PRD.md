@@ -1,4 +1,4 @@
-# Product Requirements Document (PRD): EcoPulse AI Platform
+# Product Requirements Document (PRD): EcoPulse - AI Energy Analytics Platform
 
 | Document Details | |
 | :--- | :--- |
@@ -56,3 +56,24 @@ Industrial facilities often incur high "peak demand" charges because they react 
 ## 8. Future Roadmap
 * Integration with live Weather API to correlate cloud cover with solar output.
 * Mobile-responsive view for field technicians.
+
+---
+
+## 9. Development Log
+
+### ✅ Completed (Dec 9, 2024)
+
+| Component | Status | Notes |
+| :--- | :--- | :--- |
+| **Frontend Dashboard** | ✅ Complete | Next.js 16, Recharts, TailwindCSS. Deployed to Netlify. |
+| **Backend API** | ✅ Complete | FastAPI with mock LSTM inference, CORS, batch processing. |
+| **Docker Setup** | ✅ Complete | Multi-stage Dockerfile + docker-compose.yml |
+| **PRD & README** | ✅ Complete | Documentation aligned with full-stack architecture. |
+
+### 🔜 Next Steps
+
+1. **Train Real LSTM Model** - Create `train_model.py` script to generate `.h5` file from sample data.
+2. **Add WebSocket Endpoint** - Implement `/ws/stream` for real-time telemetry.
+3. **Redis Caching** - Uncomment and configure Redis service in docker-compose.
+4. **Frontend Integration** - Connect dashboard to live `/predict` API endpoint.
+5. **CI/CD Pipeline** - Add GitHub Actions for automated testing and Docker builds.
