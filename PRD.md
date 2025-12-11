@@ -61,7 +61,7 @@ Industrial facilities often incur high "peak demand" charges because they react 
 
 ## 9. Development Log
 
-### ✅ Completed (Dec 9, 2024)
+### ✅ Completed (Dec 10, 2024)
 
 | Component | Status | Notes |
 | :--- | :--- | :--- |
@@ -69,11 +69,51 @@ Industrial facilities often incur high "peak demand" charges because they react 
 | **Backend API** | ✅ Complete | FastAPI with mock LSTM inference, CORS, batch processing. |
 | **Docker Setup** | ✅ Complete | Multi-stage Dockerfile + docker-compose.yml |
 | **PRD & README** | ✅ Complete | Documentation aligned with full-stack architecture. |
+| **Frontend-Backend Integration** | ✅ Complete | React hooks connected to `/predict` API endpoint. |
+| **WebSocket Live Telemetry** | ✅ Complete | Real-time streaming via `/ws/stream` endpoint. |
 
 ### 🔜 Next Steps
 
 1. **Train Real LSTM Model** - Create `train_model.py` script to generate `.h5` file from sample data.
-2. **Add WebSocket Endpoint** - Implement `/ws/stream` for real-time telemetry.
-3. **Redis Caching** - Uncomment and configure Redis service in docker-compose.
-4. **Frontend Integration** - Connect dashboard to live `/predict` API endpoint.
-5. **CI/CD Pipeline** - Add GitHub Actions for automated testing and Docker builds.
+2. **Redis Caching** - Uncomment and configure Redis service in docker-compose.
+3. **CI/CD Pipeline** - Add GitHub Actions for automated testing and Docker builds.
+
+---
+
+## 10. Technical Deep Dive: WebSocket Live Telemetry
+
+*Use this section to explain the feature in interviews.*
+
+### 10.1 The 30-Second Pitch
+> "I built a real-time monitoring dashboard that streams live sensor data from the backend to the frontend. Instead of the user constantly refreshing the page to see new data, the server **pushes** updates every second automatically using WebSockets. This is the same technology used in Slack, Discord, and stock trading platforms."
+
+### 10.2 Why WebSocket Instead of REST API?
+
+| Approach | How it works | Latency | Use Case |
+|----------|--------------|---------|----------|
+| **REST Polling** | Client asks "any new data?" every X seconds | High (request overhead) | Low-frequency updates |
+| **WebSocket** | Server pushes data instantly when available | Low (~50ms) | Real-time dashboards, chat, games |
+
+### 10.3 Implementation Details
+
+**Backend** (`backend/main.py`):
+* `ConnectionManager` class to track active WebSocket clients
+* `/ws/stream` endpoint that upgrades HTTP → WebSocket
+* Async loop generating and sending telemetry every 1 second
+
+**Frontend** (`hooks/useWebSocket.ts`):
+* Custom React hook with connection state management
+* Auto-reconnect logic (5 retries with 3-second intervals)
+* Data history buffer for charting (last 60 data points)
+
+**Visualization** (`components/dashboard/LiveTelemetryChart.tsx`):
+* Real-time Recharts graph that appends new data points
+* Live status indicator with connect/disconnect controls
+* Anomaly detection alerts
+
+### 10.4 Key Interview Talking Points
+
+1. **Demonstrates full-stack skills** — Backend WebSocket server + Frontend consumer
+2. **Production patterns** — Connection manager, auto-reconnect, graceful error handling
+3. **Real-time systems knowledge** — Understanding when to use WebSocket vs REST
+4. **UX focus** — Live status badges, connection controls, streaming charts
