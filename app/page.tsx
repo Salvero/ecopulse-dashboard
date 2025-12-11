@@ -48,7 +48,7 @@ export default function DashboardPage() {
       />
 
       {/* Main Content - Compact, Above-the-Fold Layout */}
-      <main className="pt-14 pb-4 px-4 lg:px-6 max-w-[1920px] mx-auto">
+      <main className="pt-20 pb-4 px-4 lg:px-6 max-w-[1920px] mx-auto">
 
         {/* Page Header */}
         <div className="mb-3">

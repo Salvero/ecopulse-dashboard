@@ -34,7 +34,7 @@ export function LiveTelemetryChart({ className }: LiveTelemetryChartProps) {
     const { theme } = useTheme();
     const [mounted, setMounted] = useState(false);
     const { data, history, isConnected, error, connect, disconnect } = useWebSocket({
-        autoConnect: false,
+        autoConnect: true,
     });
 
     useEffect(() => {
@@ -124,8 +124,8 @@ export function LiveTelemetryChart({ className }: LiveTelemetryChartProps) {
                         </div>
 
                         <div className={`rounded-lg p-2.5 border ${data.status.anomaly_detected
-                                ? 'bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/30'
-                                : 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/30'
+                            ? 'bg-red-50 dark:bg-red-500/10 border-red-200 dark:border-red-500/30'
+                            : 'bg-emerald-50 dark:bg-emerald-500/10 border-emerald-200 dark:border-emerald-500/30'
                             }`}>
                             <div className="flex items-center gap-1 mb-1">
                                 {data.status.anomaly_detected
@@ -186,17 +186,25 @@ export function LiveTelemetryChart({ className }: LiveTelemetryChartProps) {
                                 />
                                 <Legend wrapperStyle={{ paddingTop: '8px', fontSize: '11px' }} iconType="circle" iconSize={6} />
 
+                                <defs>
+                                    <linearGradient id="usageGradient" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor={colors.teal} stopOpacity={0.3} />
+                                        <stop offset="95%" stopColor={colors.teal} stopOpacity={0.05} />
+                                    </linearGradient>
+                                </defs>
+
                                 <Area
                                     yAxisId="left"
                                     type="monotone"
                                     dataKey="currentUsage"
                                     name="Usage"
-                                    fill={`${colors.teal}20`}
+                                    fill="url(#usageGradient)"
                                     stroke={colors.teal}
-                                    strokeWidth={2}
+                                    strokeWidth={2.5}
+                                    animationDuration={300}
                                 />
-                                <Line yAxisId="left" type="monotone" dataKey="solarOutput" name="Solar" stroke={colors.cyan} strokeWidth={1.5} dot={false} />
-                                <Line yAxisId="left" type="monotone" dataKey="gridDependency" name="Grid" stroke={colors.slate} strokeWidth={1.5} dot={false} strokeDasharray="4 4" />
+                                <Line yAxisId="left" type="monotone" dataKey="solarOutput" name="Solar" stroke={colors.cyan} strokeWidth={2} dot={false} animationDuration={300} />
+                                <Line yAxisId="left" type="monotone" dataKey="gridDependency" name="Grid" stroke={colors.slate} strokeWidth={2} dot={false} strokeDasharray="5 5" animationDuration={300} />
                             </ComposedChart>
                         </ResponsiveContainer>
                     ) : (

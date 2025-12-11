@@ -150,7 +150,7 @@ export function EnvironmentPanel({
                     <div className="space-y-2">
                         <div className="flex items-center justify-between">
                             <span className="text-xs text-slate-600 dark:text-slate-400">Solar Efficiency</span>
-                            <span className={`text-xs font-semibold ${uvIndex >= 3 ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}`}>
+                            <span className={`text-xs font-semibold ${uvIndex >= 3 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500 dark:text-slate-400'}`}>
                                 {uvIndex >= 6 ? 'Optimal' : uvIndex >= 3 ? 'Good' : 'Limited'}
                             </span>
                         </div>
@@ -162,7 +162,7 @@ export function EnvironmentPanel({
                         </div>
                         <div className="flex items-center justify-between">
                             <span className="text-xs text-slate-600 dark:text-slate-400">HVAC Load</span>
-                            <span className={`text-xs font-semibold ${temperature > 25 || temperature < 10 ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
+                            <span className={`text-xs font-semibold ${temperature > 30 || temperature < 5 ? 'text-rose-600 dark:text-rose-400' : temperature > 25 || temperature < 10 ? 'text-slate-500 dark:text-slate-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
                                 {temperature > 30 || temperature < 5 ? 'High' : temperature > 25 || temperature < 10 ? 'Moderate' : 'Low'}
                             </span>
                         </div>

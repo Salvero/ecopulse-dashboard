@@ -416,10 +416,22 @@ async def model_info():
 def generate_telemetry_data() -> dict:
     """
     Generates simulated real-time sensor telemetry data.
-    In production, this would read from actual IoT sensors/message queue.
+    Enhanced with more dynamic patterns for impressive graph visualization.
     """
-    base_load = 150  # Base kWh
-    hour = datetime.utcnow().hour
+    import math
+    
+    # Use timestamp for wave patterns
+    now = datetime.utcnow()
+    seconds = now.second + now.microsecond / 1000000
+    minutes = now.minute + seconds / 60
+    hour = now.hour
+    
+    # Create oscillating base patterns for visual interest
+    wave1 = math.sin(seconds * 0.5) * 30  # Slow wave
+    wave2 = math.sin(seconds * 1.2) * 15  # Medium wave
+    wave3 = math.sin(seconds * 2.5) * 8   # Fast ripple
+    
+    base_load = 150
     
     # Time-based multiplier (higher during business hours)
     if 9 <= hour <= 17:
@@ -431,38 +443,41 @@ def generate_telemetry_data() -> dict:
     else:
         multiplier = 1.0
     
-    # Add realistic variation
-    noise = random.uniform(-15, 15)
-    current_usage = round(base_load * multiplier + noise, 2)
+    # Combine waves with random noise for dynamic patterns
+    dynamic_noise = wave1 + wave2 + wave3 + random.uniform(-20, 20)
+    current_usage = round(base_load * multiplier + dynamic_noise, 2)
+    current_usage = max(80, current_usage)  # Minimum floor
     
-    # Simulate solar generation (0 at night, peak at noon)
-    solar_multiplier = max(0, 1 - abs(hour - 12) / 12)
-    solar_output = round(random.uniform(80, 120) * solar_multiplier, 2)
+    # Solar with its own wave pattern (smoother)
+    solar_base = max(0, 1 - abs(hour - 12) / 12)
+    solar_wave = math.sin(seconds * 0.3) * 20 + math.sin(seconds * 0.8) * 10
+    solar_output = round(max(0, (80 + solar_wave) * solar_base + random.uniform(-5, 10)), 2)
     
-    # Grid dependency = usage - solar
-    grid_dependency = round(max(0, current_usage - solar_output), 2)
+    # Grid dependency with slight lag effect
+    grid_wave = math.sin((seconds - 0.5) * 0.5) * 10
+    grid_dependency = round(max(0, current_usage - solar_output + grid_wave), 2)
     
-    # Simulate temperature
+    # Temperature with gentle fluctuation
     base_temp = 18
-    temp_noise = random.uniform(-3, 3)
-    temperature = round(base_temp + (hour - 12) * 0.3 + temp_noise, 1)
+    temp_wave = math.sin(seconds * 0.2) * 2
+    temperature = round(base_temp + (hour - 12) * 0.3 + temp_wave + random.uniform(-1, 1), 1)
     
-    # Random anomaly (5% chance)
-    anomaly = random.random() < 0.05
+    # Random anomaly (3% chance for more occasional spikes)
+    anomaly = random.random() < 0.03
     if anomaly:
-        current_usage *= 1.5
+        current_usage *= 1.4
         current_usage = round(current_usage, 2)
     
     return {
-        "timestamp": datetime.utcnow().isoformat(),
+        "timestamp": now.isoformat(),
         "sensor_id": "main-facility",
         "metrics": {
             "current_usage": current_usage,
             "solar_output": solar_output,
             "grid_dependency": grid_dependency,
             "temperature": temperature,
-            "humidity": round(random.uniform(40, 70), 1),
-            "uv_index": round(max(0, solar_multiplier * random.uniform(0, 11)), 1),
+            "humidity": round(45 + math.sin(seconds * 0.1) * 10 + random.uniform(-3, 3), 1),
+            "uv_index": round(max(0, solar_base * (5 + math.sin(seconds * 0.4) * 3)), 1),
         },
         "status": {
             "anomaly_detected": anomaly,

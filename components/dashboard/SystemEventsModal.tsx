@@ -63,10 +63,10 @@ export function SystemEventsModal() {
             {/* Trigger Button */}
             <button
                 onClick={() => setIsOpen(true)}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800 transition-colors"
+                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-sky-50 dark:bg-sky-500/10 border border-sky-200 dark:border-sky-500/30 hover:bg-sky-100 dark:hover:bg-sky-500/20 transition-colors"
             >
-                <Terminal className="w-4 h-4 text-slate-500" />
-                <span className="text-xs font-medium text-slate-600 dark:text-slate-400 hidden sm:inline">Events</span>
+                <Terminal className="w-4 h-4 text-sky-500" />
+                <span className="text-xs font-medium text-sky-700 dark:text-sky-400 hidden sm:inline">Events</span>
             </button>
 
             {/* Modal Overlay */}

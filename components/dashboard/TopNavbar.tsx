@@ -22,25 +22,21 @@ import { SystemInsightsModal } from './SystemInsightsModal';
 import { SystemEventsModal } from './SystemEventsModal';
 import { SystemArchitectureModal } from './SystemArchitectureModal';
 
-// Minimalist Geometric Logo
+// EcoPulse Logo with Image
 function EcoPulseLogo({ className = '' }: { className?: string }) {
     return (
-        <div className={`flex items-center gap-2 ${className}`}>
-            <div className="relative w-7 h-7 flex items-center justify-center">
-                <svg viewBox="0 0 40 40" className="w-full h-full" fill="none">
-                    <path
-                        d="M8 28 L14 16 L20 22 L26 10 L32 18"
-                        stroke="rgb(13, 148, 136)"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    />
-                    <circle cx="8" cy="28" r="2" fill="rgb(13, 148, 136)" />
-                    <circle cx="20" cy="22" r="2" fill="rgb(20, 184, 166)" />
-                    <circle cx="32" cy="18" r="2" fill="rgb(13, 148, 136)" />
-                </svg>
+        <div className={`flex items-center gap-3 ${className}`}>
+            <div className="w-12 h-12 bg-white rounded-lg p-1 flex items-center justify-center shadow-sm">
+                <img
+                    src="/logo.png"
+                    alt="EcoPulse Logo"
+                    className="w-full h-full object-contain"
+                />
             </div>
-            <span className="text-sm font-bold text-slate-900 dark:text-white">EcoPulse</span>
+            <div className="flex flex-col">
+                <span className="text-base font-bold text-slate-900 dark:text-white leading-tight">EcoPulse</span>
+                <span className="text-[10px] text-slate-500 dark:text-slate-400 font-medium">AI Energy Analytics</span>
+            </div>
         </div>
     );
 }
@@ -77,7 +73,7 @@ export function TopNavbar({ cities, selectedCity, onCityChange, solarOutput = 0,
     return (
         <header className="fixed top-0 left-0 right-0 z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800">
             <div className="max-w-[1920px] mx-auto px-4 lg:px-6">
-                <div className="flex items-center justify-between h-12">
+                <div className="flex items-center justify-between h-16">
 
                     {/* Left: Logo */}
                     <div className="flex items-center gap-4">
@@ -150,14 +146,6 @@ export function TopNavbar({ cities, selectedCity, onCityChange, solarOutput = 0,
                         <span className="hidden md:block text-xs font-mono text-slate-500 tabular-nums">{time || '--:--'}</span>
 
                         <div className="w-px h-4 bg-slate-200 dark:bg-slate-700"></div>
-
-                        {/* Actions */}
-                        <button className="p-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500">
-                            <Bell className="w-4 h-4" />
-                        </button>
-                        <button className="p-1.5 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500">
-                            <Settings className="w-4 h-4" />
-                        </button>
 
                         {mounted && (
                             <button
