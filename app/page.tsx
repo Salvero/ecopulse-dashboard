@@ -4,10 +4,13 @@ import { useDashboardData } from '@/hooks/useDashboardData';
 import { TopNavbar, CITIES } from '@/components/dashboard/TopNavbar';
 import { AIInsightCard } from '@/components/dashboard/AIInsightCard';
 import { EnergyMixCard } from '@/components/dashboard/EnergyMixCard';
+import { ProjectAbstractCard } from '@/components/dashboard/ProjectAbstractCard';
+import { InferenceHealthCard } from '@/components/dashboard/InferenceHealthCard';
+import { EventLogCard } from '@/components/dashboard/EventLogCard';
 import { LiveTelemetryChart } from '@/components/dashboard/LiveTelemetryChart';
 import { EnvironmentPanel } from '@/components/dashboard/EnvironmentPanel';
 import { EnergyChart } from '@/components/dashboard/EnergyChart';
-import { MapPin, TrendingUp, BarChart3, Zap, Activity } from 'lucide-react';
+import { MapPin, BarChart3 } from 'lucide-react';
 
 export default function DashboardPage() {
   const [selectedCity, setSelectedCity] = useState(CITIES[0]);
@@ -18,6 +21,10 @@ export default function DashboardPage() {
     const date = new Date(d.timestamp);
     return date.getHours() === currentHour;
   }) || data?.energyData[0];
+
+  // Calculate KPI values
+  const peakToday = data?.energyData ? Math.max(...data.energyData.map(d => d.solarOutput || 0)) : 0;
+  const avgAQI = data?.energyData ? data.energyData.reduce((a, d) => a + (d.airQualityIndex || 0), 0) / data.energyData.length : 0;
 
   if (error) {
     return (
@@ -42,7 +49,7 @@ export default function DashboardPage() {
         temperature={data?.weather.temperature ?? 0}
       />
 
-      {/* Main Content */}
+      {/* Main Content - Compact, Above-the-Fold Layout */}
       <main className="pt-14 pb-4 px-4 lg:px-6 max-w-[1920px] mx-auto">
 
         {/* Page Header */}
@@ -56,16 +63,28 @@ export default function DashboardPage() {
           </h1>
         </div>
 
-        {/* ROW 1: Hero Section - AI + Energy Mix + Environment */}
+        {/* ROW 1: Hero Section - 3 Columns */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-3">
-          <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-3">
+          {/* Left Column: AI Forecast + Project Abstract + Inference Health */}
+          <div className="lg:col-span-4 flex flex-col gap-3">
             <AIInsightCard />
+            <ProjectAbstractCard />
+            <InferenceHealthCard />
+          </div>
+
+          {/* Middle Column: Energy Mix with KPIs */}
+          <div className="lg:col-span-4 flex flex-col">
             <EnergyMixCard
               solarOutput={currentEnergy?.solarOutput ?? 0}
               gridUsage={Math.max(0, (currentEnergy?.solarOutput ?? 0) * 2.5 - (currentEnergy?.solarOutput ?? 0))}
+              peakToday={peakToday}
+              avgAQI={avgAQI}
+              className="h-full"
             />
           </div>
-          <div className="lg:col-span-4">
+
+          {/* Right Column: Environment + Event Log */}
+          <div className="lg:col-span-4 flex flex-col gap-3">
             <EnvironmentPanel
               temperature={data?.weather.temperature ?? 0}
               humidity={data?.weather.humidity ?? 0}
@@ -73,11 +92,12 @@ export default function DashboardPage() {
               uvIndex={currentEnergy?.uvIndex ?? 0}
               forecast={data?.forecast ?? []}
             />
+            <EventLogCard />
           </div>
         </div>
 
         {/* ROW 2: Main Analytics - Live Telemetry (2/3) + Correlation (1/3) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mb-3">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
           <div className="lg:col-span-2">
             <LiveTelemetryChart />
           </div>
@@ -104,50 +124,6 @@ export default function DashboardPage() {
                 <EnergyChart data={data?.energyData || []} mode="combined" className="h-full" />
               </div>
             </div>
-          </div>
-        </div>
-
-        {/* ROW 3: KPI Stats Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className="card p-3">
-            <div className="flex items-center gap-2 mb-1">
-              <TrendingUp className="w-3.5 h-3.5 text-cyan-500" />
-              <span className="text-xs uppercase tracking-wider text-slate-500">Peak Today</span>
-            </div>
-            <p className="text-xl font-bold text-slate-900 dark:text-white tabular-nums">
-              {data?.energyData ? Math.max(...data.energyData.map(d => d.solarOutput || 0)).toFixed(0) : '0'}
-              <span className="text-xs font-normal text-slate-400 ml-0.5">kWh</span>
-            </p>
-          </div>
-
-          <div className="card p-3">
-            <div className="flex items-center gap-2 mb-1">
-              <Activity className="w-3.5 h-3.5 text-blue-500" />
-              <span className="text-xs uppercase tracking-wider text-slate-500">Avg AQI</span>
-            </div>
-            <p className="text-xl font-bold text-slate-900 dark:text-white tabular-nums">
-              {data?.energyData ? (data.energyData.reduce((a, d) => a + (d.airQualityIndex || 0), 0) / data.energyData.length).toFixed(0) : '0'}
-            </p>
-          </div>
-
-          <div className="card p-3">
-            <div className="flex items-center gap-2 mb-1">
-              <Zap className="w-3.5 h-3.5 text-slate-500" />
-              <span className="text-xs uppercase tracking-wider text-slate-500">Grid Draw</span>
-            </div>
-            <p className="text-xl font-bold text-slate-900 dark:text-white tabular-nums">
-              23<span className="text-xs font-normal text-slate-400 ml-0.5">%</span>
-            </p>
-          </div>
-
-          <div className="card p-3">
-            <div className="flex items-center gap-2 mb-1">
-              <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
-              <span className="text-xs uppercase tracking-wider text-slate-500">Efficiency</span>
-            </div>
-            <p className="text-xl font-bold text-slate-900 dark:text-white tabular-nums">
-              87<span className="text-xs font-normal text-slate-400 ml-0.5">%</span>
-            </p>
           </div>
         </div>
 

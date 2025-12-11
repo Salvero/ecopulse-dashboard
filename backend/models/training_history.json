@@ -1,0 +1,10 @@
+{
+  "trained_at": "2025-12-10T14:24:21.468428",
+  "sequence_length": 24,
+  "train_samples": 6988,
+  "val_samples": 1748,
+  "epochs_completed": 50,
+  "final_train_loss": 0.0018563943449407816,
+  "final_val_loss": 0.002283505629748106,
+  "metrics": {
+    "mape": 

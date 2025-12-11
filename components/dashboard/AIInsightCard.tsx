@@ -28,7 +28,7 @@ export function AIInsightCard({ className }: AIInsightCardProps) {
     const status = getConfidenceStatus();
 
     return (
-        <div className={`card p-4 ${className}`}>
+        <div className={`card p-4 w-full ${className || ''}`}>
             {/* Header - Compact */}
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center gap-2">
@@ -80,8 +80,8 @@ export function AIInsightCard({ className }: AIInsightCardProps) {
             {/* Status Grid - Compact */}
             <div className="grid grid-cols-2 gap-2">
                 <div className={`rounded-lg p-3 ${isOnline
-                        ? 'bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30'
-                        : 'bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30'
+                    ? 'bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-200 dark:border-emerald-500/30'
+                    : 'bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/30'
                     }`}>
                     <div className="flex items-center gap-1.5 mb-0.5">
                         <Cpu className={`w-3 h-3 ${isOnline ? 'text-emerald-500' : 'text-red-500'}`} />
@@ -95,8 +95,8 @@ export function AIInsightCard({ className }: AIInsightCardProps) {
                 </div>
 
                 <div className={`rounded-lg p-3 border ${prediction?.anomaly_detected
-                        ? 'bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/30'
-                        : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700'
+                    ? 'bg-amber-50 dark:bg-amber-500/10 border-amber-200 dark:border-amber-500/30'
+                    : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700'
                     }`}>
                     <div className="flex items-center gap-1.5 mb-0.5">
                         {prediction?.anomaly_detected ? (
@@ -105,8 +105,8 @@ export function AIInsightCard({ className }: AIInsightCardProps) {
                             <TrendingUp className="w-3 h-3 text-slate-400" />
                         )}
                         <span className={`text-xs font-semibold ${prediction?.anomaly_detected
-                                ? 'text-amber-700 dark:text-amber-400'
-                                : 'text-slate-600 dark:text-slate-400'
+                            ? 'text-amber-700 dark:text-amber-400'
+                            : 'text-slate-600 dark:text-slate-400'
                             }`}>
                             {prediction?.anomaly_detected ? 'Alert' : 'Normal'}
                         </span>
