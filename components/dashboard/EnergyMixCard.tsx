@@ -36,7 +36,7 @@ export function EnergyMixCard({
     };
 
     return (
-        <div className={`card w-full ${className || ''}`}>
+        <div className={`card w-full flex flex-col ${className || ''}`}>
             {/* Header */}
             <div className="p-4 pb-0">
                 <div className="flex items-center gap-2 mb-4">
@@ -48,10 +48,10 @@ export function EnergyMixCard({
             </div>
 
             {/* TOP ROW: 50/50 Split - Energy Mix | Carbon Impact */}
-            <div className="px-4 pb-4">
-                <div className="grid grid-cols-2 gap-0">
+            <div className="px-4 pb-4 flex-1 flex flex-col">
+                <div className="grid grid-cols-2 gap-0 flex-1">
                     {/* LEFT: Energy Source Mix (50%) */}
-                    <div className="pr-4">
+                    <div className="pr-4 flex flex-col">
                         <p className="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-3">Energy Source Mix</p>
 
                         {/* Progress Bar */}
@@ -69,7 +69,7 @@ export function EnergyMixCard({
                         </div>
 
                         {/* Solar vs Grid */}
-                        <div className="flex items-center gap-6">
+                        <div className="flex items-center gap-6 flex-1">
                             <div className="flex items-center gap-2">
                                 <Sun className="w-4 h-4 text-cyan-500" />
                                 <div>
@@ -88,8 +88,8 @@ export function EnergyMixCard({
                     </div>
 
                     {/* RIGHT: Carbon Impact (50%) with border-left */}
-                    <div className="pl-4 border-l border-slate-200 dark:border-slate-700 flex flex-col justify-center">
-                        <p className="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-3">Carbon Impact</p>
+                    <div className="pl-4 border-l border-slate-200 dark:border-slate-700 flex flex-col justify-center items-center">
+                        <p className="text-xs uppercase tracking-wider text-slate-500 font-semibold mb-3 text-center">Carbon Impact</p>
 
                         {/* Large CO2 Metric */}
                         <div className="flex items-center gap-3 mb-3">
@@ -104,9 +104,9 @@ export function EnergyMixCard({
                         </div>
 
                         {/* Trend Pill */}
-                        <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold w-fit ${isBetterThanAvg
-                                ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
-                                : 'bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400'
+                        <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-bold ${isBetterThanAvg
+                            ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                            : 'bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400'
                             }`}>
                             {isBetterThanAvg ? <TrendingDown className="w-4 h-4" /> : <TrendingUp className="w-4 h-4" />}
                             {isBetterThanAvg ? `↓ ${co2DiffPercent}%` : `↑ ${co2DiffPercent}%`}
@@ -167,3 +167,4 @@ export function EnergyMixCard({
         </div>
     );
 }
+

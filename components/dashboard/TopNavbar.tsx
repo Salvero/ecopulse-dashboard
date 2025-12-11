@@ -11,9 +11,16 @@ import {
     Bell,
     Settings,
     Clock,
-    Sparkles
+    Sparkles,
+    Leaf,
+    Building2,
+    Crown,
+    Cherry,
+    Waves
 } from 'lucide-react';
 import { SystemInsightsModal } from './SystemInsightsModal';
+import { SystemEventsModal } from './SystemEventsModal';
+import { SystemArchitectureModal } from './SystemArchitectureModal';
 
 // Minimalist Geometric Logo
 function EcoPulseLogo({ className = '' }: { className?: string }) {
@@ -72,69 +79,63 @@ export function TopNavbar({ cities, selectedCity, onCityChange, solarOutput = 0,
             <div className="max-w-[1920px] mx-auto px-4 lg:px-6">
                 <div className="flex items-center justify-between h-12">
 
-                    {/* Left: Logo & Location */}
+                    {/* Left: Logo */}
                     <div className="flex items-center gap-4">
                         <EcoPulseLogo />
-                        <div className="w-px h-5 bg-slate-200 dark:bg-slate-700"></div>
-
-                        {/* Location Selector */}
-                        <div className="relative hidden sm:block">
-                            <button
-                                onClick={() => setCityDropdownOpen(!cityDropdownOpen)}
-                                className="flex items-center gap-1.5 px-2 py-1 rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-                            >
-                                <MapPin className="w-3.5 h-3.5 text-teal-500" />
-                                <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{selectedCity.name}</span>
-                                <ChevronDown className={`w-3 h-3 text-slate-400 transition-transform ${cityDropdownOpen ? 'rotate-180' : ''}`} />
-                            </button>
-
-                            {cityDropdownOpen && (
-                                <div className="absolute top-full left-0 mt-1 w-40 bg-white dark:bg-slate-800 rounded-lg shadow-lg border border-slate-200 dark:border-slate-700 overflow-hidden z-50">
-                                    {cities.map((city) => (
-                                        <button
-                                            key={city.name}
-                                            onClick={() => {
-                                                onCityChange(city);
-                                                setCityDropdownOpen(false);
-                                            }}
-                                            className={`w-full px-3 py-2 text-left text-sm flex items-center gap-2 transition-colors ${selectedCity.name === city.name
-                                                    ? 'bg-teal-50 dark:bg-teal-500/10 text-teal-700 dark:text-teal-400'
-                                                    : 'hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300'
-                                                }`}
-                                        >
-                                            <MapPin className={`w-3 h-3 ${selectedCity.name === city.name ? 'text-teal-500' : 'text-slate-400'}`} />
-                                            {city.name}
-                                        </button>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
                     </div>
 
-                    {/* Center: Navigation */}
+                    {/* Center: Navigation with Dashboard + City Tabs */}
                     <nav className="hidden lg:flex items-center gap-1">
-                        {[
-                            { icon: Activity, label: 'Dashboard', active: true },
-                            { icon: BarChart3, label: 'Analytics', active: false },
-                            { icon: Clock, label: 'History', active: false },
-                        ].map((item) => (
-                            <button
-                                key={item.label}
-                                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${item.active
-                                        ? 'bg-teal-50 dark:bg-teal-500/10 text-teal-700 dark:text-teal-400'
-                                        : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800'
-                                    }`}
-                            >
-                                <item.icon className="w-3.5 h-3.5" />
-                                {item.label}
-                            </button>
-                        ))}
+                        {/* Dashboard Tab */}
+                        <button
+                            className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium bg-teal-50 dark:bg-teal-500/10 text-teal-700 dark:text-teal-400"
+                        >
+                            <Activity className="w-3.5 h-3.5" />
+                            Dashboard
+                        </button>
+
+                        <div className="w-px h-4 bg-slate-200 dark:bg-slate-700 mx-1"></div>
+
+                        {/* City Tabs with unique icons */}
+                        {cities.map((city) => {
+                            const isActive = selectedCity.name === city.name;
+                            // City-specific icons and colors
+                            const cityConfig: Record<string, { icon: React.ElementType; color: string; bgColor: string }> = {
+                                'Toronto': { icon: Leaf, color: 'text-red-500', bgColor: 'bg-red-50 dark:bg-red-500/10' },
+                                'New York': { icon: Building2, color: 'text-purple-500', bgColor: 'bg-purple-50 dark:bg-purple-500/10' },
+                                'London': { icon: Crown, color: 'text-amber-500', bgColor: 'bg-amber-50 dark:bg-amber-500/10' },
+                                'Tokyo': { icon: Cherry, color: 'text-pink-500', bgColor: 'bg-pink-50 dark:bg-pink-500/10' },
+                                'Sydney': { icon: Waves, color: 'text-blue-500', bgColor: 'bg-blue-50 dark:bg-blue-500/10' },
+                            };
+                            const config = cityConfig[city.name] || { icon: MapPin, color: 'text-cyan-500', bgColor: 'bg-cyan-50' };
+                            const IconComponent = config.icon;
+
+                            return (
+                                <button
+                                    key={city.name}
+                                    onClick={() => onCityChange(city)}
+                                    className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium transition-colors ${isActive
+                                        ? `${config.bgColor} ${config.color}`
+                                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800'
+                                        }`}
+                                >
+                                    <IconComponent className={`w-3.5 h-3.5 ${config.color}`} />
+                                    {city.name}
+                                </button>
+                            );
+                        })}
                     </nav>
 
                     {/* Right: Status & Actions */}
                     <div className="flex items-center gap-2">
                         {/* AI Insights Button - Modal Trigger */}
                         <SystemInsightsModal solarOutput={solarOutput} temperature={temperature} />
+
+                        {/* System Events Button - Modal Trigger */}
+                        <SystemEventsModal />
+
+                        {/* System Architecture Button - Modal Trigger */}
+                        <SystemArchitectureModal />
 
                         {/* System Status */}
                         <div className="hidden sm:flex items-center gap-1.5 px-2 py-1 rounded-md bg-emerald-50 dark:bg-emerald-500/10">
@@ -178,4 +179,5 @@ export const CITIES: City[] = [
     { name: 'New York', coords: { lat: 40.7128, long: -74.0060 } },
     { name: 'London', coords: { lat: 51.5074, long: -0.1278 } },
     { name: 'Tokyo', coords: { lat: 35.6762, long: 139.6503 } },
+    { name: 'Sydney', coords: { lat: -33.8688, long: 151.2093 } },
 ];

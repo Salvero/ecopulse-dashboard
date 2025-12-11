@@ -4,9 +4,7 @@ import { useDashboardData } from '@/hooks/useDashboardData';
 import { TopNavbar, CITIES } from '@/components/dashboard/TopNavbar';
 import { AIInsightCard } from '@/components/dashboard/AIInsightCard';
 import { EnergyMixCard } from '@/components/dashboard/EnergyMixCard';
-import { ProjectAbstractCard } from '@/components/dashboard/ProjectAbstractCard';
 import { InferenceHealthCard } from '@/components/dashboard/InferenceHealthCard';
-import { EventLogCard } from '@/components/dashboard/EventLogCard';
 import { LiveTelemetryChart } from '@/components/dashboard/LiveTelemetryChart';
 import { EnvironmentPanel } from '@/components/dashboard/EnvironmentPanel';
 import { EnergyChart } from '@/components/dashboard/EnergyChart';
@@ -65,44 +63,11 @@ export default function DashboardPage() {
 
         {/* ROW 1: Hero Section - 3 Columns */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 mb-3">
-          {/* Left Column: AI Forecast + Project Abstract + Inference Health */}
+          {/* Left Column: AI Forecast + Energy Correlation */}
           <div className="lg:col-span-4 flex flex-col gap-3">
             <AIInsightCard />
-            <ProjectAbstractCard />
-            <InferenceHealthCard />
-          </div>
-
-          {/* Middle Column: Energy Mix with KPIs */}
-          <div className="lg:col-span-4 flex flex-col">
-            <EnergyMixCard
-              solarOutput={currentEnergy?.solarOutput ?? 0}
-              gridUsage={Math.max(0, (currentEnergy?.solarOutput ?? 0) * 2.5 - (currentEnergy?.solarOutput ?? 0))}
-              peakToday={peakToday}
-              avgAQI={avgAQI}
-              className="h-full"
-            />
-          </div>
-
-          {/* Right Column: Environment + Event Log */}
-          <div className="lg:col-span-4 flex flex-col gap-3">
-            <EnvironmentPanel
-              temperature={data?.weather.temperature ?? 0}
-              humidity={data?.weather.humidity ?? 0}
-              windSpeed={data?.weather.windSpeed ?? 0}
-              uvIndex={currentEnergy?.uvIndex ?? 0}
-              forecast={data?.forecast ?? []}
-            />
-            <EventLogCard />
-          </div>
-        </div>
-
-        {/* ROW 2: Main Analytics - Live Telemetry (2/3) + Correlation (1/3) */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-          <div className="lg:col-span-2">
-            <LiveTelemetryChart />
-          </div>
-          <div className="lg:col-span-1">
-            <div className="card h-full p-4 flex flex-col">
+            {/* Energy Correlation Card */}
+            <div className="card p-4 flex flex-col">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-7 h-7 rounded-lg bg-teal-100 dark:bg-teal-500/20 flex items-center justify-center">
                   <BarChart3 className="w-3.5 h-3.5 text-teal-600 dark:text-teal-400" />
@@ -125,6 +90,34 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
+
+          {/* Middle Column: Sustainability Intelligence + Inference Health */}
+          <div className="lg:col-span-4 flex flex-col gap-3">
+            <EnergyMixCard
+              solarOutput={currentEnergy?.solarOutput ?? 0}
+              gridUsage={Math.max(0, (currentEnergy?.solarOutput ?? 0) * 2.5 - (currentEnergy?.solarOutput ?? 0))}
+              peakToday={peakToday}
+              avgAQI={avgAQI}
+              className="flex-1"
+            />
+            <InferenceHealthCard />
+          </div>
+
+          {/* Right Column: Environment */}
+          <div className="lg:col-span-4 flex flex-col gap-3">
+            <EnvironmentPanel
+              temperature={data?.weather.temperature ?? 0}
+              humidity={data?.weather.humidity ?? 0}
+              windSpeed={data?.weather.windSpeed ?? 0}
+              uvIndex={currentEnergy?.uvIndex ?? 0}
+              forecast={data?.forecast ?? []}
+            />
+          </div>
+        </div>
+
+        {/* ROW 2: Live Telemetry - Full Width */}
+        <div className="grid grid-cols-1 gap-3">
+          <LiveTelemetryChart />
         </div>
 
       </main>

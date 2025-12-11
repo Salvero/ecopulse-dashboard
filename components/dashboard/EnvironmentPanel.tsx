@@ -62,7 +62,7 @@ export function EnvironmentPanel({
 
                 {/* Conditions Grid */}
                 <div className="grid grid-cols-2 gap-2 mb-4">
-                    <div className="rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2.5">
+                    <div className="rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2.5 flex flex-col items-center justify-center">
                         <div className="flex items-center gap-1.5 mb-1">
                             <Thermometer className="w-3 h-3 text-teal-500" />
                             <span className="text-xs uppercase tracking-wider text-slate-500">Temp</span>
@@ -72,7 +72,7 @@ export function EnvironmentPanel({
                         </p>
                     </div>
 
-                    <div className="rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2.5">
+                    <div className="rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2.5 flex flex-col items-center justify-center">
                         <div className="flex items-center gap-1.5 mb-1">
                             <Droplets className="w-3 h-3 text-blue-500" />
                             <span className="text-xs uppercase tracking-wider text-slate-500">Humidity</span>
@@ -82,7 +82,7 @@ export function EnvironmentPanel({
                         </p>
                     </div>
 
-                    <div className="rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2.5">
+                    <div className="rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2.5 flex flex-col items-center justify-center">
                         <div className="flex items-center gap-1.5 mb-1">
                             <Wind className="w-3 h-3 text-slate-500" />
                             <span className="text-xs uppercase tracking-wider text-slate-500">Wind</span>
@@ -92,7 +92,7 @@ export function EnvironmentPanel({
                         </p>
                     </div>
 
-                    <div className="rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2.5">
+                    <div className="rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2.5 flex flex-col items-center justify-center">
                         <div className="flex items-center gap-1.5 mb-1">
                             <Sun className={`w-3 h-3 ${uvStatus.color}`} />
                             <span className="text-xs uppercase tracking-wider text-slate-500">UV</span>
@@ -123,7 +123,7 @@ export function EnvironmentPanel({
                 </div>
 
                 {/* 5-Day Forecast */}
-                <div>
+                <div className="mb-4">
                     <p className="text-xs uppercase tracking-wider text-slate-500 mb-2">5-Day Forecast</p>
                     <div className="flex gap-1.5">
                         {forecast.slice(0, 5).map((day, index) => {
@@ -141,6 +141,35 @@ export function EnvironmentPanel({
                                 </div>
                             );
                         })}
+                    </div>
+                </div>
+
+                {/* Energy Impact Summary */}
+                <div className="p-3 rounded-lg bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-800/50 dark:to-slate-800 border border-slate-200 dark:border-slate-700">
+                    <p className="text-xs uppercase tracking-wider text-slate-500 mb-2">Energy Impact</p>
+                    <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                            <span className="text-xs text-slate-600 dark:text-slate-400">Solar Efficiency</span>
+                            <span className={`text-xs font-semibold ${uvIndex >= 3 ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400'}`}>
+                                {uvIndex >= 6 ? 'Optimal' : uvIndex >= 3 ? 'Good' : 'Limited'}
+                            </span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <span className="text-xs text-slate-600 dark:text-slate-400">Panel Cooling</span>
+                            <span className={`text-xs font-semibold ${windSpeed >= 10 ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-500'}`}>
+                                {windSpeed >= 15 ? 'Excellent' : windSpeed >= 10 ? 'Good' : 'Moderate'}
+                            </span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <span className="text-xs text-slate-600 dark:text-slate-400">HVAC Load</span>
+                            <span className={`text-xs font-semibold ${temperature > 25 || temperature < 10 ? 'text-amber-600 dark:text-amber-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
+                                {temperature > 30 || temperature < 5 ? 'High' : temperature > 25 || temperature < 10 ? 'Moderate' : 'Low'}
+                            </span>
+                        </div>
+                        <div className="flex items-center justify-between">
+                            <span className="text-xs text-slate-600 dark:text-slate-400">Daylight Hours</span>
+                            <span className="text-xs font-semibold text-cyan-600 dark:text-cyan-400">13h 33m</span>
+                        </div>
                     </div>
                 </div>
             </div>
